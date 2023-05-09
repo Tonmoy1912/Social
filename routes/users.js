@@ -4,6 +4,8 @@ const userController=require("../controllers/users_controller");
 
 router.get("/profile",userController.profile);
 router.get("/",userController.home);
-router.get("/posts",userController.home);
+router.get("/posts",userController.post);
+router.get("/sign-in",userController.signIn);
+router.get("/sign-up",userController.signUp);
 
 module.exports=router;
