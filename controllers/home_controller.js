@@ -1,5 +1,8 @@
 module.exports.home=function(req,res){
-    // return res.send("<h1>Express is up for Social</h1>")
+    // console.log(req.cookies);
+    // res.cookie("user_id",25);
+    // res.cookie("extra","blabla");
+    // res.cookie("extra2","blahblah");
     res.render("home",{title:"Home"});
     return ;
 }

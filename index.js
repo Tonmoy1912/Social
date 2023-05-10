@@ -1,13 +1,18 @@
 const express=require('express');
 const expressLayouts=require("express-ejs-layouts");
 const path=require("path");
+const cookieParser=require("cookie-parser");
 const app=express();
 const port=8000;
+
+const db=require("./config/mongoose");
+const User=require("./models/user");
 
 app.set('view engine','ejs');
 app.set('views',"./views");
 
 app.use(expressLayouts);
+app.use(cookieParser());
 app.use(express.urlencoded());
 app.use(express.static(path.join(__dirname,"assets")));
 app.use('/',require("./routes"));
