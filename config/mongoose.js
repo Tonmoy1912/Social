@@ -7,3 +7,7 @@ mongoose.connect("mongodb://127.0.0.1:27017/Social")
 .catch((err)=>{
     console.log(err);
 });
+
+const db=mongoose.connection;
+
+module.exports=db;
