@@ -1,0 +1,48 @@
+.text-center{
+    text-align: center;
+}
+
+.bold-white{
+    font-weight: 700;
+    color: white;
+}
+
+.flex-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.header-footer{
+    background-color: blue;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.log-link{
+    width: 35vw;
+    /* display: flex;
+    justify-content: space-between; */
+}
+
+main{
+    height: 90vh;
+    background-color: #2b8383;
+    margin: 0;
+    padding: 1px;
+}
+body{
+    margin: 0;
+}
+
+.footer-page-container{
+    width: 40%;
+    margin: auto;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+a{
+    font-weight: 700;
+    color: white;
+}
