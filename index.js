@@ -17,6 +17,7 @@ const User=require("./models/user");
 
 app.set('view engine','ejs');
 app.set('views',"./views");
+app.set('layout','./layouts/layout')
 
 app.use(expressLayouts);
 app.use(cookieParser());
