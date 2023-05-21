@@ -1,11 +1,13 @@
 <h1 class="text-center bold-white">Social/<%=title%></h1>
 
 <section id="feed-posts">
-    <h2 class="bold-white text-center">Post</h2>
-    <form action="/posts/create" id="new-post-form" class="text-center" method="POST">
-        <textarea name="content"  cols="30" rows="3" placeholder="Type here..."></textarea>
-        <input type="submit" value="Post">
-    </form>
+    <% if(locals.user){ %>
+        <h2 class="bold-white text-center">Post</h2>
+        <form action="/posts/create" id="new-post-form" class="text-center" method="POST">
+            <textarea name="content"  cols="30" rows="3" placeholder="Type here..."></textarea>
+            <input type="submit" value="Post">
+        </form>
+    <% } %>
 
     <div id="posts-list-container">
         <ul type="1">

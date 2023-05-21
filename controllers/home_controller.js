@@ -5,7 +5,7 @@ module.exports.home=function(req,res){
     // res.cookie("user_id",25);
     // res.cookie("extra","blabla");
     // res.cookie("extra2","blahblah");
-    const func=async function(){
+    const func1=async function(){
         try{
             const posts=await Post.find({user:req.user._id}).populate("user");
             res.render("home",{title:"Home",posts:posts});
@@ -14,7 +14,22 @@ module.exports.home=function(req,res){
             console.log(err);
         }
     }
-    func();
+    const func2=async function(){
+        try{
+            const posts=await Post.find({}).populate("user");
+            res.render("home",{title:"Home",posts:posts});
+        }
+        catch(err){
+            console.log(err);
+        }
+    }
+    if(req.isAuthenticated()){
+        func1();
+    }
+    else{
+        func2();
+    }
+    
     // res.render("home",{title:"Home"});
     // return ;
 }
