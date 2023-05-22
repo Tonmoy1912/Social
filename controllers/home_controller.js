@@ -16,19 +16,26 @@ module.exports.home=function(req,res){
     }
     const func2=async function(){
         try{
-            const posts=await Post.find({}).populate("user");
+            const posts=await Post.find({})
+            .populate("user")
+            .populate({
+                path:"comments",
+                populate:{
+                    path:"user"
+                }
+            });
             res.render("home",{title:"Home",posts:posts});
         }
         catch(err){
             console.log(err);
         }
     }
-    if(req.isAuthenticated()){
-        func1();
-    }
-    else{
+    // if(req.isAuthenticated()){
+    //     func1();
+    // }
+    // else{
         func2();
-    }
+    // }
     
     // res.render("home",{title:"Home"});
     // return ;
