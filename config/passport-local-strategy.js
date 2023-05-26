@@ -6,20 +6,23 @@ const User=require("../models/user").User;
 
 //authentication using passport
 passport.use(new LocalStrategy({
-        usernameField:"email"
+        usernameField:"email",
+        passReqToCallback:true
     },
-    function(email,password,done){
+    function(req,email,password,done){
         //find a user and establish the identity
         const func=async function(){
             try{
                 var arr=await User.find({email:email});
                 if(arr.length==0){
                     // console.log("User is not found");
+                    req.flash("error","Invalid email/password");
                     return done(null,false);
                 }
                 var doc=arr[0];
                 if(doc.password!=password){
-                    console.log("Password doesn't match");
+                    // console.log("Password doesn't match");
+                    req.flash("error","Invalid email/password");
                     return done(null,false);
                 }
                 // console.log("User is authenticated");
@@ -27,6 +30,7 @@ passport.use(new LocalStrategy({
             }
             catch(err){
                 // console.log("Error in finding user");
+                req.flash("error",err);
                 return done(err);
             }
         };
