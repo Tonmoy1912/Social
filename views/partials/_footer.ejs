@@ -1,5 +1,7 @@
 <!-- <h3 class="text-center">Page footer</h3> -->
 <div class="footer-page-container flex-header bold-white">
     <a href="/">Home</a>
-    <a href="/users/profile">Profile</a>
+    <% if(locals.user) { %>
+    <a href="/users/profile/<%=user.id%>">Profile</a>
+    <% } %>
 </div>

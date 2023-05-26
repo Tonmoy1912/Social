@@ -1,3 +1,5 @@
+const User = require("../models/user").User;
+
 const Post=require("../models/post").Post;
 
 module.exports.home=function(req,res){
@@ -24,7 +26,10 @@ module.exports.home=function(req,res){
                     path:"user"
                 }
             });
-            res.render("home",{title:"Home",posts:posts});
+
+            const all_user=await User.find({});
+
+            res.render("home",{title:"Home",posts:posts,all_user:all_user});
         }
         catch(err){
             console.log(err);

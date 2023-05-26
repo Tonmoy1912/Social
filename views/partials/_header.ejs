@@ -1,7 +1,7 @@
     <div class="bold-white" style="font-size: 40px;">Social</div>
     <ul type="none" class="flex-header log-link bold-white">
         <% if(locals.user){ %>
-            <li><a href="/users/profile"><%=user.name%></a></li>
+            <li><a href="/users/profile/<%=user.id%>"><%=user.name%></a></li>
             <li><a href="/users/sign-out">Sign Out</a></li>
         <%}else{%>
             <li><a href="/users/sign-up">Sign Up</a></li>
