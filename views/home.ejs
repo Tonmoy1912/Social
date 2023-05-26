@@ -12,13 +12,19 @@
     <div id="posts-list-container">
         <ol type="1">
             <% for(post of locals.posts) {%>
+                <li>
                 <p>
-                    <li>
+                    <% if(locals.user && locals.user.id==post.user.id){ %>
+                        <small>
+                            <a href="/posts/destroy/<%=post.id%>" style="color:red">X</a>
+                        </small>
+                    <% } %>
+                    <!-- <li> -->
                         <%=post.content%>
-                    </li>
+                    <!-- </li> -->
                     <br>
                     <small>
-                        <%=post.user.name%>
+                        -<%=post.user.name%>
                     </small>
                 </p>
                 <div class="post-comments">
@@ -33,18 +39,26 @@
                     <div class="post-commets-list">
                         <ul id="post-comments-<%=post._id%>">
                             <% for(comment of post.comments){ %>
-                            <p>
-                                <%=comment.content%>
-                                <br>
-                                <small>
-                                   - <%=comment.user.name%>
-                                </small>
-                            </p>
+                                <li>
+                                    <p>
+                                        <% if(locals.user && (locals.user.id==comment.user.id || locals.user.id==post.user.id)){ %>
+                                            <small>
+                                                <a href="/comments/destroy/?id=<%=comment.id%>&postUserId=<%=post.user.id%>" style="color:red">X</a>
+                                            </small>
+                                        <% } %>
+                                        <%=comment.content%>
+                                        <br>
+                                        <small>
+                                           - <%=comment.user.name%>
+                                        </small>
+                                    </p>
+                                </li>
                             
                             <% } %>
                         </ul>
                     </div>
                 </div>
+                </li>
             <% } %>
         </ol>
     </div>

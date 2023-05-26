@@ -26,7 +26,7 @@
 }
 
 main{
-    height: 90vh;
+    min-height: 84vh;
     background-color: #2b8383;
     margin: 0;
     padding: 1px;
