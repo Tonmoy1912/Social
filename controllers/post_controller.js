@@ -16,6 +16,7 @@ module.exports.create=function(req,res){
                     data:{
                         post:doc
                     },
+                    successMessage:"Post published!",
                     user_name:req.user.name,
                     message:"Post Created"
                 });
@@ -45,8 +46,21 @@ module.exports.delete=function(req,res){
                 return res.redirect("back");
             }
             // await post.delete();
+            
             await Post.deleteMany({_id:req.params.id});
             await Comment.deleteMany({post:req.params.id});
+            //for ajax request
+            if(req.xhr){
+                // req.flash("success","Post and associated comments deleted!");
+                return res.status(200).json({
+                    data:{
+                        post_id:req.params.id
+                    },
+                    successMessage:"Post and associated comments deleted!",
+                    message:"Post deleted"
+                });
+            }
+            //for normal http request
             req.flash("success","Post and associated comments deleted!");
             return res.redirect("back");
         }

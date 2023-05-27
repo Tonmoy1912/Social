@@ -5,7 +5,7 @@
         newPostForm.submit(function(event){
             event.preventDefault();
 
-            console.log("default prevented");
+            // console.log("default prevented");
             $.ajax({
                 url:"/posts/create",
                 method:"POST",
@@ -14,9 +14,16 @@
                     // console.log(data);
                     let newPost=newPostDom(data.data.post,data.user_name);
                     // console.log(newPost);
+                    $(".delete-post-button",newPost).click(deletePostOnClick);
                     $("#posts-list-container ol").prepend(newPost);
-                    // newPost.appendTo("#post-list-container ul");
-                    // console.log("append called");
+                    // $("#home-contianer").append(createNoty(data.successMessage));
+                    new Noty({
+                        theme:"relax",
+                        text: data.successMessage,
+                        type:"success",
+                        layout:"center",
+                        timeout:2500
+                    }).show();
                 },
                 error:function(err){
                     console.log(err.responseText);
@@ -26,15 +33,13 @@
         });
     };
 
-    createPost();
-
     //for creating html element
     function newPostDom(post,user_name){
         // console.log("newPostDom called");
         return $(`<li id="post-${post._id}">
             <p>
                     <small>
-                        <a class="delete-post-botton" href="/posts/destroy/${post._id}" style="color:red">X</a>
+                        <a class="delete-post-button" href="/posts/destroy/${post._id}" style="color:red">X</a>
                     </small>
                 <!-- <li> -->
                     ${post.content}
@@ -57,4 +62,45 @@
             </div>
         </li>`);
     };
+
+
+    function deletePost(){
+        $(".delete-post-button").click(deletePostOnClick);
+    }
+
+    function deletePostOnClick(event){
+        event.preventDefault();
+        $.ajax({
+            method:"GET",
+            url:$(event.target).prop("href"),
+            success:function(data){
+                $(`#post-${data.data.post_id}`).remove();
+                new Noty({
+                    theme:"relax",
+                    text: data.successMessage,
+                    type:"success",
+                    layout:"center",
+                    timeout:2500
+                }).show();
+            },
+            error:function(err){
+                console.log(err);
+            }
+        })
+    }
+
+    function createNoty(message){
+        return $(`<script>
+                    new Noty({
+                        theme:"relax",
+                        text: ${message},
+                        type:"success",
+                        layout:"center",
+                        timeout:2500
+                    }).show();
+                </script>`);
+    }
+
+    createPost();
+    deletePost();
 }
