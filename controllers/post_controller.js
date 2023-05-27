@@ -4,11 +4,22 @@ const Comment=require("../models/comment").Comment;
 module.exports.create=function(req,res){
     const func=async function(){
         try{
-            const doc=new Post({
+            const doc=await new Post({
                 content:req.body.content,
                 user:req.user._id
             });
+            
             await Post.insertMany([doc]);
+            if(req.xhr){
+                // req.flash("success","Post published!");
+                return res.status(200).json({
+                    data:{
+                        post:doc
+                    },
+                    user_name:req.user.name,
+                    message:"Post Created"
+                });
+            }
             req.flash("success","Post published!");
             return res.redirect("back");
         }
