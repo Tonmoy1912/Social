@@ -25,6 +25,8 @@ app.use(expressLayouts);
 app.use(cookieParser());
 app.use(express.urlencoded());
 app.use(express.static(path.join(__dirname,"assets")));
+//make the upload path available
+app.use("/uploads",express.static(path.join(__dirname,"uploads")));
 //mongpstore is used to store session cookie in db
 app.use(session({
     name:"social",

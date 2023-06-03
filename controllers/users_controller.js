@@ -1,5 +1,7 @@
 const User2=require("../models/user");
 const User=User2.User;
+const fs=require("fs");
+const path=require("path");
 
 module.exports.profile=function(req,res){
     // res.send("<h1>User Profile</h1>");
@@ -77,21 +79,61 @@ module.exports.update=function(req,res){
                 req.flash("error","Unauthorized");
                 return res.redirect("back");
             }
-            var arr=await User.find({email:req.body.email});
-            if(arr.length==1){
-                if(arr[0].id!=req.params.id){
-                    // return res.status(401).send("Enter a unique email");
-                    req.flash("error","Enter a unique email");
+            // var arr=await User.find({email:req.body.email});
+            // if(arr.length==1){
+            //     if(arr[0].id!=req.params.id){
+            //         // return res.status(401).send("Enter a unique email");
+            //         req.flash("error","Enter a unique email");
+            //         return res.redirect("back");
+            //     }
+                
+            // }
+            // await User.updateMany({_id:req.params.id},{$set:{name:req.body.name,email:req.body.email}});
+            User.uploadedAvatar(req,res,async function(err){
+                if(err){
+                    req.flash("error",err);
                     return res.redirect("back");
                 }
-                
-            }
-            await User.updateMany({_id:req.params.id},{$set:{name:req.body.name,email:req.body.email}});
-            req.flash("success","Updation successful");
-            return res.redirect("back");
+                try{
+                    var arr=await User.find({email:req.body.email});
+                    if(arr.length==1){
+                        if(arr[0].id!=req.params.id){
+                            // return res.status(401).send("Enter a unique email");
+                            req.flash("error","Enter a unique email");
+                            return res.redirect("back");
+                            // return ;
+                        }
+                        
+                    }
+                    await User.updateMany({_id:req.params.id},{$set:{name:req.body.name,email:req.body.email}});
+                    if(req.file){
+                        if(req.user.avatar){
+                            //to delete the previous avatar from bucket
+                            try{
+                                fs.unlinkSync(path.join(__dirname,"..",req.user.avatar));
+                            }
+                            catch(err){
+                                console.log(err);
+                            }
+                        }
+                        const avatarPath=User.avatarPath+"/"+req.file.filename;
+                        await User.updateMany({_id:req.params.id},{$set:{avatar:avatarPath}});
+                    }
+                    req.flash("success","Updation successful");
+                    return res.redirect("back");
+                }
+                catch(err){
+                    req.flash("error",err);
+                    return res.redirect("back");
+                }
+            });
+            // req.flash("success","Updation successful");
+            // return res.redirect("back");
         }
         catch(err){
-            console.log(err);
+            req.flash("error",err);
+            return res.redirect("back");
+            // console.log(err);
         }
     };
     func();
